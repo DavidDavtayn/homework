@@ -1,23 +1,30 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { useState } from "react";
 
 function App() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const appAccordion = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
+            <form>
+                <input type="text" placeholder="Title"></input>
+                <textarea placeholder="Description"></textarea>
+                <button>Add</button>
+            </form>
+            <div className="textadd">
+                <p onClick={appAccordion}>TEXT></p>
+
+                {isOpen && (
+                    <div className="acrdion">
+                        <input />
+                        <textarea></textarea>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
