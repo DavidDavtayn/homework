@@ -2,26 +2,67 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isInput, setInput] = useState("");
+    const [isTextarea, setTextarea] = useState("");
+    const [isItems, setItems] = useState([]);
+    const [isOpen, setOpen] = useState(false);
+
+    const inputChange = (e) => {
+        setInput(e.target.value);
+    };
+
+    const textareaChange = (e) => {
+        setTextarea(e.target.value);
+    };
+
+    const submit = (e) => {
+        e.preventDefault();
+        if (isInput || isTextarea) {
+            const newItem = {
+                text: isInput,
+                description: isTextarea,
+            };
+            setItems([...isItems, newItem]);
+            setInput("");
+            setTextarea("");
+            setOpen(true);
+        }
+    };
 
     const appAccordion = () => {
-        setIsOpen(!isOpen);
+        setOpen(!isOpen);
     };
 
     return (
         <div className="App">
-            <form>
-                <input type="text" placeholder="Title"></input>
-                <textarea placeholder="Description"></textarea>
+            <form onSubmit={submit}>
+                <input
+                    type="text"
+                    value={isInput}
+                    onChange={inputChange}
+                    placeholder="Title"
+                />
+                <textarea
+                    value={isTextarea}
+                    onChange={textareaChange}
+                    placeholder="Description"
+                />
                 <button>Add</button>
             </form>
             <div className="textadd">
                 <p onClick={appAccordion}>TEXT></p>
-
                 {isOpen && (
-                    <div className="acrdion">
-                        <input />
-                        <textarea></textarea>
+                    <div className="accordion">
+                        {isItems.length > 0 ? (
+                            isItems.map((item, index) => (
+                                <div className="accordionkey" key={index}>
+                                    <input value={item.text} />
+                                    <textarea value={item.description} />
+                                </div>
+                            ))
+                        ) : (
+                            <p></p>
+                        )}
                     </div>
                 )}
             </div>
