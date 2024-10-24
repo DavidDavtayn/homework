@@ -55,6 +55,7 @@ textarea {
     width: 400px;
     height: 50px;
     background-color: black;
+    transition: 2s;
 }
 
 .textadd > p {

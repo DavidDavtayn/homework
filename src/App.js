@@ -50,7 +50,7 @@ function App() {
                 <button>Add</button>
             </form>
             <div className="textadd">
-                <p onClick={appAccordion}>TEXT></p>
+                <p onClick={appAccordion}>Text></p>
                 {isOpen && (
                     <div className="accordion">
                         {isItems.length > 0 ? (
