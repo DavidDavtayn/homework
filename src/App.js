@@ -1,71 +1,64 @@
 import "./App.css";
 import { useState } from "react";
+import TodoList from "./TodoList";
+import TodoForm from "./TodoForm";
+import TodoFooter from "./TodoFooter";
 
 function App() {
-    const [isInput, setInput] = useState("");
-    const [isTextarea, setTextarea] = useState("");
-    const [isItems, setItems] = useState([]);
-    const [isOpen, setOpen] = useState(false);
-
-    const inputChange = (e) => {
-        setInput(e.target.value);
-    };
-
-    const textareaChange = (e) => {
-        setTextarea(e.target.value);
-    };
-
-    const submit = (e) => {
-        e.preventDefault();
-        if (isInput || isTextarea) {
-            const newItem = {
-                text: isInput,
-                description: isTextarea,
-            };
-            setItems([...isItems, newItem]);
-            setInput("");
-            setTextarea("");
-            setOpen(true);
-        }
-    };
-
-    const appAccordion = () => {
-        setOpen(!isOpen);
-    };
+    const [todos, setTodos] = useState([
+        {
+            id: Math.random(),
+            text: "Learn JS",
+            isCopleted: false,
+        },
+        {
+            id: Math.random(),
+            text: "Learn CSS",
+            isCopleted: false,
+        },
+        {
+            id: Math.random(),
+            text: "Learn React",
+            isCopleted: false,
+        },
+    ]);
 
     return (
-        <div className="App">
-            <form onSubmit={submit}>
-                <input
-                    type="text"
-                    value={isInput}
-                    onChange={inputChange}
-                    placeholder="Title"
-                />
-                <textarea
-                    value={isTextarea}
-                    onChange={textareaChange}
-                    placeholder="Description"
-                />
-                <button>Add</button>
-            </form>
-            <div className="textadd">
-                <p onClick={appAccordion}>Text></p>
-                {isOpen && (
-                    <div className="accordion">
-                        {isItems.length > 0 ? (
-                            isItems.map((item, index) => (
-                                <div className="accordionkey" key={index}>
-                                    <input value={item.text} />
-                                    <textarea value={item.description} />
-                                </div>
-                            ))
-                        ) : (
-                            <p></p>
-                        )}
-                    </div>
-                )}
-            </div>
+        <div className="app">
+            <TodoForm
+                onAdd={(text) => {
+                    setTodos([
+                        ...todos,
+                        {
+                            id: Math.random(),
+                            text: text,
+                            isCopleted: false,
+                        },
+                    ]);
+                }}
+            />
+            <TodoList
+                todos={todos}
+                onDelete={(todo) => {
+                    setTodos(todos.filter((t) => t.id !== todo.id));
+                }}
+                onChange={(newTodo) => {
+                    setTodos(
+                        todos.map((todo) => {
+                            if (todo.id === newTodo.id) {
+                                return newTodo;
+                            }
+                            return todo;
+                        })
+                    );
+                }}
+            />
+            <TodoFooter
+                todos={todos}
+                onClearCopleted={() => {
+                    setTodos(todos.filter((todo) => !todo.isCopleted));
+                }}
+            />
         </div>
     );
 }
